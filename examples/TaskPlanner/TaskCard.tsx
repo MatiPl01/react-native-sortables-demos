@@ -51,14 +51,14 @@ function TaskCard({
 
   useAnimatedReaction(
     () => ({
-      selected: isSelected.value,
+      progress: selectedAnimationProgress.value,
       totalDuration: totalDurations.value[itemKey]
     }),
-    ({ selected, totalDuration }) => {
-      if (selected && totalDuration) {
+    ({ progress, totalDuration }) => {
+      if (progress === 1 && totalDuration) {
         const startTime = startTimeMinutes + totalDuration - duration;
         animatedText.value = minutesToTime(startTime);
-      } else if (!selected) {
+      } else if (progress === 0) {
         animatedText.value = formatDuration(duration);
       }
     },
