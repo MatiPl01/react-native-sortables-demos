@@ -29,13 +29,13 @@ const styles = StyleSheet.create({
     marginBottom: spacing.xs
   },
   line: {
-    backgroundColor: colors.foreground4,
+    backgroundColor: colors.background4,
     flex: 1,
     height: 1
   },
   text: {
     ...text.subHeading3,
-    color: colors.foreground3,
+    color: colors.foreground4,
     marginHorizontal: spacing.sm
   }
 });

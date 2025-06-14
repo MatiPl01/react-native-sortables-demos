@@ -6,13 +6,10 @@ import Sortable from 'react-native-sortables';
 
 import { spacing } from '@/theme';
 
+import { SEPARATOR } from './constants';
 import Separator from './Separator';
 import TaskCard from './TaskCard';
 import type { Task } from './types';
-
-// Special marker for the visual break between the
-// "already-scheduled" list (top) and the inbox (bottom).
-export const SEPARATOR = '__SEPARATOR__' as const;
 
 // Assume this is the initial data from the backend
 export const DATA: Array<Task | typeof SEPARATOR> = [
@@ -88,7 +85,6 @@ export default function TaskPlanner() {
         dragActivationDelay={0}
         overDrag='vertical'
         renderItem={renderItem}
-        reorderTriggerOrigin='touch'
         rowGap={spacing.sm}
         scrollableRef={scrollableRef}
         customHandle
