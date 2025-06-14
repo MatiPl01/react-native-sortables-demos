@@ -3,19 +3,23 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import { colors, spacing, text } from '@/theme';
 
-export function Separator() {
+interface SectionHeaderProps {
+  title: string;
+}
+
+export function SectionHeader({ title }: SectionHeaderProps) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.line} />
-        <Text style={styles.text}>Inbox Tasks</Text>
+        <Text style={styles.text}>{title}</Text>
         <View style={styles.line} />
       </View>
     </View>
   );
 }
 
-export default memo(Separator);
+export default memo(SectionHeader);
 
 const styles = StyleSheet.create({
   container: {
@@ -34,7 +38,7 @@ const styles = StyleSheet.create({
     height: 1
   },
   text: {
-    ...text.subHeading3,
+    ...text.subHeading2,
     color: colors.foreground4,
     marginHorizontal: spacing.sm
   }

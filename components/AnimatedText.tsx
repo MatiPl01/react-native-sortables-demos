@@ -8,8 +8,7 @@ Animated.addWhitelistedNativeProps({ text: true });
 
 const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
 
-interface TextProps extends Omit<TextInputProps, 'style' | 'value'> {
-  style?: AnimatedProps<TextInputProps>['style'];
+interface TextProps extends Omit<AnimatedProps<TextInputProps>, 'value'> {
   text: SharedValue<string>;
 }
 

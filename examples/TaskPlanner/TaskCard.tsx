@@ -1,23 +1,44 @@
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { memo } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import type { SharedValue } from 'react-native-reanimated';
 import Animated, {
   interpolateColor,
   LinearTransition,
+  useAnimatedReaction,
   useAnimatedStyle,
   useDerivedValue,
+  useSharedValue,
   withTiming
 } from 'react-native-reanimated';
 import Sortable, { useItemContext } from 'react-native-sortables';
 
-import { colors, iconSizes, radius, spacing, text } from '@/theme';
+import AnimatedText from '@/components/AnimatedText';
+import { colors, flex, iconSizes, radius, spacing, text } from '@/theme';
 
 import { SEPARATOR } from './constants';
 import type { Task } from './types';
 import { minutesToTime } from './utils';
 
-function TaskCard({ duration, icon, title }: Task) {
+function formatDuration(duration: number) {
+  'worklet';
+  return `Duration: ${minutesToTime(duration)}`;
+}
+
+type TaskCardProps = Task & {
+  startTimeMinutes: number;
+  totalDurations: SharedValue<Record<string, number>>;
+};
+
+function TaskCard({
+  duration,
+  icon,
+  startTimeMinutes,
+  title,
+  totalDurations
+}: TaskCardProps) {
   const { itemKey, keyToIndex } = useItemContext();
+
   const selectedAnimationProgress = useDerivedValue(() => {
     const itemIndex = keyToIndex.value[itemKey] ?? 0;
     const separatorIndex = keyToIndex.value[SEPARATOR] ?? 0;
@@ -25,6 +46,23 @@ function TaskCard({ duration, icon, title }: Task) {
   });
   const isSelected = useDerivedValue(() =>
     Math.round(selectedAnimationProgress.value)
+  );
+  const animatedText = useSharedValue(formatDuration(duration));
+
+  useAnimatedReaction(
+    () => ({
+      selected: isSelected.value,
+      totalDuration: totalDurations.value[itemKey]
+    }),
+    ({ selected, totalDuration }) => {
+      if (selected && totalDuration) {
+        const startTime = startTimeMinutes + totalDuration - duration;
+        animatedText.value = minutesToTime(startTime);
+      } else if (!selected) {
+        animatedText.value = formatDuration(duration);
+      }
+    },
+    [totalDurations, itemKey, duration, startTimeMinutes]
   );
 
   const animatedCardStyle = useAnimatedStyle(() => ({
@@ -36,7 +74,7 @@ function TaskCard({ duration, icon, title }: Task) {
     ...(isSelected.value
       ? {
           justifyContent: 'flex-start',
-          marginLeft: spacing.xxl,
+          marginLeft: 60,
           minHeight: 1.5 * duration
         }
       : {
@@ -54,9 +92,19 @@ function TaskCard({ duration, icon, title }: Task) {
     )
   }));
 
-  const animatedSubtitleStyle = useAnimatedStyle(() => ({
-    display: isSelected.value ? 'none' : 'flex'
-  }));
+  const animatedSubtitleStyle = useAnimatedStyle(() =>
+    isSelected.value
+      ? {
+          left: -110,
+          position: 'absolute',
+          top: -10
+        }
+      : {
+          left: 0,
+          position: 'relative',
+          top: 0
+        }
+  );
 
   return (
     <Animated.View
@@ -65,15 +113,18 @@ function TaskCard({ duration, icon, title }: Task) {
       <View style={styles.contentContainer}>
         <View style={styles.content}>
           <Text>{icon}</Text>
-          <View>
+          <View style={flex.shrink}>
             <Animated.Text
               layout={LinearTransition}
+              numberOfLines={1}
               style={[styles.title, animatedTitleStyle]}>
               {title}
             </Animated.Text>
-            <Animated.Text style={[styles.subtitle, animatedSubtitleStyle]}>
-              Duration: {minutesToTime(duration)}
-            </Animated.Text>
+            <AnimatedText
+              layout={LinearTransition}
+              style={[styles.subtitle, animatedSubtitleStyle]}
+              text={animatedText}
+            />
           </View>
         </View>
         <Animated.View layout={LinearTransition}>
@@ -102,19 +153,26 @@ const styles = StyleSheet.create({
   content: {
     alignItems: 'center',
     flexDirection: 'row',
+    flexShrink: 1,
     gap: spacing.md
   },
   contentContainer: {
     alignItems: 'center',
     flexDirection: 'row',
+    gap: spacing.md,
     justifyContent: 'space-between'
   },
   subtitle: {
     ...text.subHeading3,
-    color: colors.foreground3
+    color: colors.foreground3,
+    // Set to something large to prevent text clipping when text in the
+    // animated text input changes
+    width: Dimensions.get('window').width
   },
   title: {
     ...text.heading4,
-    color: colors.foreground2
+    color: colors.foreground2,
+    flexShrink: 1,
+    textOverflow: 'ellipsis'
   }
 });
