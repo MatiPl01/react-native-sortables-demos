@@ -1,17 +1,16 @@
 {
-  "extends": "expo/tsconfig.base",
+  "extends": "eslint-config-react-native-matipl01/tsconfig.base",
   "compilerOptions": {
     "strict": true,
     "paths": {
-      "@/*": [
-        "./*"
-      ]
+      "@/*": ["./*"]
     }
   },
   "include": [
     "**/*.ts",
     "**/*.tsx",
     ".expo/types/**/*.ts",
-    "expo-env.d.ts"
+    "expo-env.d.ts",
+    "eslint.config.mjs"
   ]
 }
