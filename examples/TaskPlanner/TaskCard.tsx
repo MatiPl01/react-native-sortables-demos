@@ -69,7 +69,7 @@ function TaskCard({
     backgroundColor: interpolateColor(
       selectedAnimationProgress.value,
       [0, 1],
-      [colors.background2, colors.primary]
+      [colors.white, colors.primary]
     ),
     ...(isSelected.value
       ? {

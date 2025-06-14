@@ -1,7 +1,8 @@
 import * as Haptics from 'expo-haptics';
 import { useCallback, useState } from 'react';
-import { Dimensions, ScrollView, StyleSheet } from 'react-native';
+import { Dimensions, Platform, ScrollView } from 'react-native';
 import { useAnimatedRef, useSharedValue } from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import type {
   OrderChangeCallback,
   SortableGridRenderItem
@@ -92,6 +93,7 @@ type Item = (typeof DATA)[number];
 
 export default function TaskPlanner() {
   const [data, setData] = useState(DATA);
+  const insets = useSafeAreaInsets();
   const scrollableRef = useAnimatedRef<ScrollView>();
 
   const totalDurations = useSharedValue<Record<string, number>>(
@@ -139,8 +141,12 @@ export default function TaskPlanner() {
 
   return (
     <ScrollView
-      contentContainerStyle={styles.contentContainer}
-      ref={scrollableRef}>
+      ref={scrollableRef}
+      style={Platform.OS === 'web' && { overflowY: 'scroll' }}
+      contentContainerStyle={{
+        paddingBottom: insets.bottom + spacing.md,
+        paddingHorizontal: spacing.md
+      }}>
       <PlannedTasksHeader
         startTimeMinutes={START_TIME_MINUTES}
         totalDurations={totalDurations}
@@ -171,9 +177,3 @@ export default function TaskPlanner() {
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  contentContainer: {
-    padding: spacing.md
-  }
-});
