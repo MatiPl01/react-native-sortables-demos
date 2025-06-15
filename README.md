@@ -42,3 +42,9 @@ This repository contains real-world examples of the [react-native-sortables](htt
 [Example Source Code](/examples/TaskPlanner)
 
 <https://github.com/user-attachments/assets/8653068b-976e-480b-bee0-8804910e9a57>
+
+### 2. Apple Icon Sorting
+
+[Example Source Code](/examples/AppleIconSort)
+
+https://github.com/user-attachments/assets/f169b88c-2e3f-4cdf-a8d5-fe4ab89d17e5
