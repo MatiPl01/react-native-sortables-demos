@@ -122,7 +122,7 @@ const Icon = memo(function Icon({ isEditing, item, onDelete }: IconProps) {
   );
 });
 
-export default function AppleIconsSort() {
+export default function AppleIconSort() {
   const [icons, setIcons] = useState(ICONS);
   const [isEditing, setIsEditing] = useState(false);
   const isEditingValue = useDerivedValue(() => isEditing);
@@ -196,7 +196,8 @@ const styles = StyleSheet.create({
       linear-gradient(45deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 100%), 
       radial-gradient(circle at 50% 50%, rgba(21, 138, 128, 0.08) 0%, rgba(21, 138, 128, 0) 70%)`,
     flex: 1,
-    padding: 30
+    padding: 30,
+    paddingTop: 60
   },
   deleteButton: {
     alignItems: 'center',

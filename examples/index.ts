@@ -1,4 +1,4 @@
-import AppleIconsSort from './AppleIconSort';
+import AppleIconSort from './AppleIconSort';
 import TaskPlanner from './TaskPlanner';
 
 export interface ExampleConfig {
@@ -17,9 +17,9 @@ export const EXAMPLES: Array<ExampleConfig> = [
     title: 'Task Planner'
   },
   {
-    component: AppleIconsSort,
+    component: AppleIconSort,
     description: 'A sortable grid of Apple icons',
-    route: 'apple-icons-sort',
-    title: 'Apple Icons Sort'
+    route: 'apple-icon-sort',
+    title: 'Apple Icon Sort'
   }
 ];
