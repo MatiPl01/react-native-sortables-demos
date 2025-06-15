@@ -167,6 +167,10 @@ export default function AppleIconSort() {
           overflow='visible'
           renderItem={renderItem}
           rowGap={24}
+          // We want to have the icon centered when dragging but the delete
+          // button adds up to the total width, so we have to move the snap
+          // offset from the center to the right
+          snapOffsetX='70%'
           onDragEnd={({ data }) => {
             setIcons(data);
           }}
