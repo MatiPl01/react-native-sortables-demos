@@ -17,6 +17,8 @@ import Animated, {
 import type { SortableGridRenderItem } from 'react-native-sortables';
 import Sortable, { useItemContext } from 'react-native-sortables';
 
+import { IS_WEB, MAX_CONTENT_WIDTH } from '@/constants';
+
 import amazon from './img/amazon.png';
 import dropbox from './img/dropbox.png';
 import facebook from './img/facebook.png';
@@ -144,39 +146,43 @@ export default function AppleIconSort() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        {isEditing && (
-          <AnimatedPressable
-            entering={FadeIn}
-            exiting={FadeOut}
-            style={styles.button}
-            onPress={() => setIsEditing(false)}>
-            <Text style={styles.buttonText}>Done</Text>
-          </AnimatedPressable>
-        )}
+      <View style={styles.contentWrapper}>
+        <View style={styles.header}>
+          {isEditing && (
+            <AnimatedPressable
+              entering={FadeIn}
+              exiting={FadeOut}
+              style={styles.button}
+              onPress={() => setIsEditing(false)}>
+              <Text style={styles.buttonText}>Done</Text>
+            </AnimatedPressable>
+          )}
+        </View>
+        <Sortable.Grid
+          columnGap={24}
+          columns={4}
+          data={icons}
+          inactiveItemOpacity={1}
+          keyExtractor={keyExtractor}
+          overflow='visible'
+          renderItem={renderItem}
+          rowGap={24}
+          onDragEnd={({ data }) => {
+            setIcons(data);
+          }}
+          onDragStart={() => {
+            if (!isEditing) {
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+              setIsEditing(true);
+            }
+          }}
+        />
       </View>
-      <Sortable.Grid
-        columnGap={24}
-        columns={4}
-        data={icons}
-        inactiveItemOpacity={1}
-        keyExtractor={keyExtractor}
-        overflow='visible'
-        renderItem={renderItem}
-        rowGap={24}
-        onDragEnd={({ data }) => {
-          setIcons(data);
-        }}
-        onDragStart={() => {
-          if (!isEditing) {
-            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-            setIsEditing(true);
-          }
-        }}
-      />
     </View>
   );
 }
+
+const backgroundImageProp = `${IS_WEB ? '' : 'experimental_'}backgroundImage`;
 
 const styles = StyleSheet.create({
   button: {
@@ -191,14 +197,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   container: {
-    // eslint-disable-next-line camelcase
-    experimental_backgroundImage: `linear-gradient(125deg, #158a80 0%, #072f2c 50%, #010c0b 100%), 
+    alignItems: 'center',
+    [backgroundImageProp]: `linear-gradient(125deg, #158a80 0%, #072f2c 50%, #010c0b 100%), 
       linear-gradient(45deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 100%), 
       radial-gradient(circle at 50% 50%, rgba(21, 138, 128, 0.08) 0%, rgba(21, 138, 128, 0) 70%)`,
     flex: 1,
-    padding: 30,
-    paddingTop: 60
+    padding: 30
   },
+  contentWrapper: {
+    alignContent: 'flex-end',
+    ...(IS_WEB ? { maxWidth: MAX_CONTENT_WIDTH, width: '100%' } : {})
+  },
+
   deleteButton: {
     alignItems: 'center',
     backgroundColor: 'rgba(180, 180, 180, 0.8)',
