@@ -1,4 +1,5 @@
 import AppleIconSort from './AppleIconSort';
+import RecipeCollection from './RecipeList';
 import TaskPlanner from './TaskPlanner';
 
 export interface ExampleConfig {
@@ -21,5 +22,12 @@ export const EXAMPLES: Array<ExampleConfig> = [
     description: 'A sortable grid of Apple icons',
     route: 'apple-icon-sort',
     title: 'Apple Icon Sort'
+  },
+  {
+    component: RecipeCollection,
+    description:
+      'A collection of recipe cards with drag-to-reorder functionality',
+    route: 'recipe-collection',
+    title: 'Recipe Collection'
   }
 ];
