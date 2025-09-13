@@ -153,7 +153,6 @@ export default function TaskPlanner() {
       />
       <Sortable.Grid
         activeItemScale={1.03}
-        autoScrollSpeed={0.5}
         data={data}
         dragActivationDelay={0}
         overDrag='vertical'

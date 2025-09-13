@@ -8743,7 +8743,7 @@ __metadata:
     react-native-reanimated: "npm:~4.1.0"
     react-native-safe-area-context: "npm:~5.6.0"
     react-native-screens: "npm:~4.16.0"
-    react-native-sortables: "npm:^1.7.0"
+    react-native-sortables: "npm:^1.9.0"
     react-native-web: "npm:^0.21.0"
     react-native-webview: "npm:13.15.0"
     react-native-worklets: "npm:0.5.1"
@@ -8751,9 +8751,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"react-native-sortables@npm:^1.7.0":
-  version: 1.7.0
-  resolution: "react-native-sortables@npm:1.7.0"
+"react-native-sortables@npm:^1.9.0":
+  version: 1.9.0
+  resolution: "react-native-sortables@npm:1.9.0"
   dependencies:
     react-native-haptic-feedback: "npm:>=2.0.0"
   peerDependencies:
@@ -8764,7 +8764,7 @@ __metadata:
   dependenciesMeta:
     react-native-haptic-feedback:
       optional: true
-  checksum: 10c0/1077b634253d790887af750e810d923b5a584be175f0351f487ad3c6febc99b93e09cba87b3c1568b0a652a32f8f209dbff3bb26901ffdaf6e4bf91afe36c530
+  checksum: 10c0/5830a0b8700e12489594f8be0c3ba8917c1e6dc7cfff8d316eefa01f23bdee51867f0fbb8237a4ee832fb64ec1a4dd90af05e655f5b29e19688d2b999d37c6c6
   languageName: node
   linkType: hard
 
